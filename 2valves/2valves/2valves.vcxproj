@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="2valves.cpp" />
     <ClCompile Include="InformerScraper.cpp" />
+    <ClCompile Include="NewsScraper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InformerScraper.h" />

@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <cctype>
+#include <lexbor/html/html.h>
+#include <lexbor/dom/dom.h>
 
 using std::string;
 using std::vector;
@@ -30,19 +30,29 @@ protected:
      * @param url The URL to check
      * @return True if the URL contains protest-related keywords
      */
-    bool isRelevantForProtests(const std::string& url) const {
-        for (const auto& keyword : PROTEST_KEYWORDS) {
-            auto it = std::search(url.begin(), url.end(),
-                keyword.begin(), keyword.end(),
-                [](unsigned char a, unsigned char b) {
-                    return std::tolower(a) == std::tolower(b);
-                });
-            if (it != url.end()) {
-                return true;
-            }
-        }
-        return false;
-    }
+    bool isRelevantForProtests(const std::string& url) const;
+
+    /**
+     * Checks if a node has the specified class name
+     * @param element The element to check
+     * @param className The class name to look for
+     * @return True if element has the class
+     */
+    bool hasClass(lxb_dom_element_t* element, const string& className) const;
+
+    /**
+     * Gets the href attribute value from an anchor element
+     * @param element The anchor element
+     * @return The href value, or empty string if not found
+     */
+    string getHref(lxb_dom_element_t* element) const;
+
+    /**
+     * Gets the tag name of an element
+     * @param element The element
+     * @return The tag name as string
+     */
+    string getTagName(lxb_dom_element_t* element) const;
 
 public:
     virtual ~NewsScraper() = default;
