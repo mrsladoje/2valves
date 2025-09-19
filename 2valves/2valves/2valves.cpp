@@ -1,6 +1,26 @@
+
+#include "InformerScraper.h"
 #include <iostream>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+using std::cout;
+using std::endl;
+using std::cerr;
+
+int main() {
+    cout << "Fetching news from Informer.rs..." << endl;
+
+    // Fetch and extract news links directly from the website
+    vector<string> links = InformerScraper::fetchAndExtractNewsLinks();
+
+    if (links.empty()) {
+        cerr << "No news links found or failed to fetch content." << endl;
+        return 1;
+    }
+
+    cout << "Found " << links.size() << " news links:" << endl;
+    for (const auto& link : links) {
+        cout << link << endl;
+    }
+
+    return 0;
 }

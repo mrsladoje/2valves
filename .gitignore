@@ -57,3 +57,7 @@ _CPack_Packages/
 *.tmp
 *.log
 *.stackdump
+
+# vcpkg
+
+vcpkg_installed/

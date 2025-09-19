@@ -18,5 +18,13 @@
     <ClCompile Include="2valves.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InformerScraper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="InformerScraper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,0 +1,9 @@
+{
+  "name": "2valves",
+  "version": "1.0.0",
+  "dependencies": [
+    "lexbor",
+    "cpr"
+  ],
+  "builtin-baseline": "9824d05f8d9548720ba3331f4baba3e2d6c1693b"
+}
