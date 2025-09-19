@@ -1,6 +1,7 @@
 #pragma once
 #include "NewsScraper.h"
 #include <cpr/cpr.h>
+#include <algorithm>
 
 class KurirScraper : public NewsScraper {
 public:
