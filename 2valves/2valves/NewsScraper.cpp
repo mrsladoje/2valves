@@ -183,3 +183,15 @@ string NewsScraper::getElementTextContent(lxb_dom_element_t* element) const {
     if (!text) return "";
     return string(reinterpret_cast<const char*>(text), text_len);
 }
+
+bool NewsScraper::hasId(lxb_dom_element_t* element, const string& id) const {
+    size_t attr_len;
+    const lxb_char_t* attr_value = lxb_dom_element_get_attribute(element,
+        reinterpret_cast<const lxb_char_t*>("id"), 2, &attr_len);
+
+    if (attr_value && attr_len > 0) {
+        string elementId(reinterpret_cast<const char*>(attr_value), attr_len);
+        return elementId == id;
+    }
+    return false;
+}

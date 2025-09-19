@@ -63,6 +63,14 @@ protected:
      */
     bool hasAttribute(lxb_dom_element_t* element, const string& attributeName, const string& attributeValue) const;
 
+	/**
+	 * Check if element has a specific ID
+	 * @param element The DOM element to check
+	 * @param id The expected ID value
+	 * @return True if element has the specified ID
+	 */
+    bool hasId(lxb_dom_element_t* element, const string& id) const;
+
     /**
      * Cleans and normalizes text content by removing extra whitespace
      * @param text The text to clean

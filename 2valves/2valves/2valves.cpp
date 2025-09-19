@@ -46,11 +46,10 @@ bool static fetchAndDisplayNews(ScraperType scraperType, const string& siteName)
 int main() {
     // Define the scrapers to use with their display names
     vector<std::pair<ScraperType, string>> scrapers = {
-        {ScraperType::INFORMER, "Informer.rs"}
-        /*,
-        {ScraperType::KURIR, "Kurir.rs"},
-        {ScraperType::SCRAPER_021, "021.rs"},
-        {ScraperType::N1, "N1info.rs"}*/
+       /* {ScraperType::INFORMER, "Informer.rs"},
+        {ScraperType::KURIR, "Kurir.rs"},*/
+        {ScraperType::SCRAPER_021, "021.rs"}//,
+        //{ScraperType::N1, "N1info.rs"}
     };
 
     bool anySuccess = false;
