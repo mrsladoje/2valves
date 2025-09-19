@@ -1,31 +1,27 @@
 #pragma once
-
-#include <string>
-#include <vector>
+#include "NewsScraper.h"
 #include <lexbor/html/html.h>
 #include <lexbor/dom/dom.h>
 #include <cpr/cpr.h>
 
-using std::string;
-using std::vector;
-
-class InformerScraper {
+class InformerScraper : public NewsScraper {
 public:
     /**
      * Fetches and extracts news article links from Informer.rs
-     * @param url The URL to scrape (defaults to Informer.rs latest news)
+     * @param url The URL to scrape (uses default if empty)
      * @return Vector of complete URLs to news articles
      */
-    static vector<string> fetchAndExtractNewsLinks(const string& url = "https://informer.rs/najnovije-vesti");
+    vector<string> fetchAndExtractNewsLinks(const string& url = "") override;
 
     /**
      * Extracts news article links from already fetched HTML content
      * @param htmlContent The HTML content as string
      * @return Vector of complete URLs to news articles
      */
-    static vector<string> extractNewsLinks(const string& htmlContent);
+    vector<string> extractNewsLinks(const string& htmlContent) override;
 
 private:
+    static const string DEFAULT_URL;
     static const string BASE_URL;
 
     /**
