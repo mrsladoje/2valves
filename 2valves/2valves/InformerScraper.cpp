@@ -4,9 +4,8 @@
 
 using namespace std;
 
-const string InformerScraper::BASE_URL = "https://informer.rs";
-
-vector<string> InformerScraper::fetchAndExtractNewsLinks(const string& url) {
+vector<string> InformerScraper::fetchAndExtractNewsLinks() {
+    string url = BASE_URL + "/najnovije-vesti";
     string htmlContent = fetchHtmlContent(url);
     if (htmlContent.empty()) {
         cerr << "Failed to fetch HTML content from: " << url << endl;
@@ -88,7 +87,7 @@ void InformerScraper::findNewsLinks(lxb_dom_node_t* node, vector<string>& links)
 
                     if (getTagName(childElement) == "a") {
                         string href = getHref(childElement);
-                        if (!href.empty() && href[0] == '/') {
+                        if (!href.empty() && href.substr(0, 9) == "/politika" && isRelevantForProtests(href)) {
                             links.push_back(BASE_URL + href);
                         }
                     }

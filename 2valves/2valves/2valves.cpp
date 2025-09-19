@@ -9,8 +9,9 @@ using std::cerr;
 int main() {
     cout << "Fetching news from Informer.rs..." << endl;
 
+	InformerScraper* scraper = new InformerScraper();
     // Fetch and extract news links directly from the website
-    vector<string> links = InformerScraper::fetchAndExtractNewsLinks();
+    vector<string> links = scraper->fetchAndExtractNewsLinks();
 
     if (links.empty()) {
         cerr << "No news links found or failed to fetch content." << endl;
