@@ -18,7 +18,7 @@ protected:
         "policij", "žandarm", "zandar", "hapš", "haps", "suzavac",
         "štrajk", "strajk", "bojkot", "autoput", "saobraćaj", "saobracaj",
         "pokret", "aktivis", "građan", "gradan", "korupcij", "cenzur",
-        "revolucij", "obojen", "ruš", "rus", "destabiliz", "ustaš",
+        "revolucij", "obojen", "ruš", "destabiliz", "ustaš",
         "ustas", "teroris", "idiot", "budal", "izdajn", "huligan",
         "ekstremis", "radikal", "fašis", "fasis", "ćac", "cac", "pionirsk",
         "izbor", "vanredn", "list", "saj", "rektor", "dekan", "fasizam",
@@ -54,6 +54,15 @@ protected:
      */
     string getTagName(lxb_dom_element_t* element) const;
 
+    /**
+     * Check if element has a specific attribute with a specific value
+     * @param element The DOM element to check
+     * @param attributeName The attribute name to check for
+     * @param attributeValue The expected attribute value
+     * @return True if element has the attribute with the specified value
+     */
+    bool hasAttribute(lxb_dom_element_t* element, const string& attributeName, const string& attributeValue) const;
+
 public:
     virtual ~NewsScraper() = default;
 
@@ -71,3 +80,4 @@ public:
      */
     virtual vector<string> extractNewsLinks(const string& htmlContent) = 0;
 };
+

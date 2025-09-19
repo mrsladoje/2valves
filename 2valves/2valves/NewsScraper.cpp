@@ -65,3 +65,24 @@ string NewsScraper::getTagName(lxb_dom_element_t* element) const {
 
     return string(reinterpret_cast<const char*>(tag_name), tag_name_len);
 }
+
+bool NewsScraper::hasAttribute(lxb_dom_element_t* element, const string& attributeName, const string& attributeValue) const {
+    if (!element) return false;
+
+    // Get the specified attribute
+    lxb_dom_attr_t* attr = lxb_dom_element_attr_by_name(element,
+        reinterpret_cast<const lxb_char_t*>(attributeName.c_str()),
+        attributeName.length());
+
+    if (!attr) return false;
+
+    // Get attribute value
+    size_t value_len;
+    const lxb_char_t* value = lxb_dom_attr_value(attr, &value_len);
+    if (!value) return false;
+
+    string actualValue(reinterpret_cast<const char*>(value), value_len);
+
+    // Check if the attribute value matches
+    return actualValue == attributeValue;
+}
