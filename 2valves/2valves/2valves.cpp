@@ -36,16 +36,21 @@ bool static fetchAndDisplayNews(ScraperType scraperType, const string& siteName)
     }
     cout << endl; // Add spacing between different sites
 
+	if (links.size() > 0) {
+		cout << scraper->fetchAndExtractArticleContent(links[0]) << endl;
+	}
+
     return true;
 }
 
 int main() {
     // Define the scrapers to use with their display names
     vector<std::pair<ScraperType, string>> scrapers = {
-        {ScraperType::INFORMER, "Informer.rs"},
+        {ScraperType::INFORMER, "Informer.rs"}
+        /*,
         {ScraperType::KURIR, "Kurir.rs"},
         {ScraperType::SCRAPER_021, "021.rs"},
-        {ScraperType::N1, "N1info.rs"}
+        {ScraperType::N1, "N1info.rs"}*/
     };
 
     bool anySuccess = false;

@@ -95,3 +95,7 @@ void KurirScraper::findNewsLinks(lxb_dom_node_t* node, vector<string>& links) {
         child = lxb_dom_node_next(child);
     }
 }
+
+string KurirScraper::fetchAndExtractArticleContent(const string& url) {
+    return "a";
+}

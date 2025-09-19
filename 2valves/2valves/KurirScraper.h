@@ -18,6 +18,9 @@ public:
      */
     vector<string> extractNewsLinks(const string& htmlContent) override;
 
+
+    string fetchAndExtractArticleContent(const string& url) override;
+
 private:
     const string BASE_URL = "https://www.kurir.rs";
     const string VESTI_PREFIX = "https://www.kurir.rs/vesti";

@@ -142,7 +142,10 @@
     <ClCompile Include="InformerScraper.cpp" />
     <ClCompile Include="KurirScraper.cpp" />
     <ClCompile Include="N1Scraper.cpp" />
-    <ClCompile Include="NewsScraper.cpp" />
+    <ClCompile Include="NewsScraper.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="NewsScraperFactory.cpp" />
     <ClCompile Include="Scraper021.cpp" />
   </ItemGroup>

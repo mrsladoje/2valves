@@ -18,6 +18,9 @@ public:
      */
     vector<string> extractNewsLinks(const string& htmlContent) override;
 
+
+    string fetchAndExtractArticleContent(const string& url) override;
+
 private:
     const string BASE_URL = "https://www.021.rs";
 

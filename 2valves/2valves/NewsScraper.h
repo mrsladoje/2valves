@@ -63,6 +63,45 @@ protected:
      */
     bool hasAttribute(lxb_dom_element_t* element, const string& attributeName, const string& attributeValue) const;
 
+    /**
+     * Cleans and normalizes text content by removing extra whitespace
+     * @param text The text to clean
+     * @return Cleaned text
+     */
+    string cleanTextContent(const string& text) const;
+
+    /**
+     * Finds the first element with the specified class name
+     * @param root The root node to search from
+     * @param className The class name to search for
+     * @return Pointer to the element, or nullptr if not found
+     */
+    lxb_dom_element_t* findElementByClass(lxb_dom_node_t* root, const string& className) const;
+
+    /**
+     * Finds the first element with the specified class name and tag name
+     * @param root The root node to search from
+     * @param className The class name to search for
+     * @param tagName The tag name to search for
+     * @return Pointer to the element, or nullptr if not found
+     */
+    lxb_dom_element_t* findElementByClassAndTag(lxb_dom_node_t* root, const string& className, const string& tagName) const;
+
+    /**
+     * Finds the first element with the specified tag name
+     * @param root The root node to search from
+     * @param tagName The tag name to search for
+     * @return Pointer to the element, or nullptr if not found
+     */
+    lxb_dom_element_t* findElementByTag(lxb_dom_node_t* root, const string& tagName) const;
+
+    /**
+     * Gets the text content of an element
+     * @param element The element to get text from
+     * @return The text content as string
+     */
+    string getElementTextContent(lxb_dom_element_t* element) const;
+
 public:
     virtual ~NewsScraper() = default;
 
@@ -79,5 +118,14 @@ public:
      * @return Vector of complete URLs to news articles
      */
     virtual vector<string> extractNewsLinks(const string& htmlContent) = 0;
+
+    /**
+     * Fetches and extracts the full content of a news article
+     * @param url The URL of the article to scrape
+     * @return The article content as a formatted string, or empty string on error
+     */
+    virtual string fetchAndExtractArticleContent(const string& url) = 0;
 };
+
+
 

@@ -86,3 +86,100 @@ bool NewsScraper::hasAttribute(lxb_dom_element_t* element, const string& attribu
     // Check if the attribute value matches
     return actualValue == attributeValue;
 }
+
+string NewsScraper::cleanTextContent(const string& text) const {
+    string cleaned = text;
+
+    // Remove extra whitespace and normalize line breaks
+    size_t start = cleaned.find_first_not_of(" \t\n\r");
+    if (start == string::npos) return "";
+
+    size_t end = cleaned.find_last_not_of(" \t\n\r");
+    cleaned = cleaned.substr(start, end - start + 1);
+
+    // Replace multiple spaces with single space
+    size_t pos = 0;
+    while ((pos = cleaned.find("  ", pos)) != string::npos) {
+        cleaned.replace(pos, 2, " ");
+        pos += 1;
+    }
+
+    return cleaned;
+}
+
+lxb_dom_element_t* NewsScraper::findElementByClass(lxb_dom_node_t* root, const string& className) const {
+    if (!root) return nullptr;
+
+    // If this is an element node, check if it has the class
+    if (root->type == LXB_DOM_NODE_TYPE_ELEMENT) {
+        lxb_dom_element_t* element = lxb_dom_interface_element(root);
+        if (hasClass(element, className)) {
+            return element;
+        }
+    }
+
+    // Search children regardless of node type
+    lxb_dom_node_t* child = lxb_dom_node_first_child(root);
+    while (child) {
+        lxb_dom_element_t* found = findElementByClass(child, className);
+        if (found) return found;
+        child = lxb_dom_node_next(child);
+    }
+
+    return nullptr;
+}
+
+lxb_dom_element_t* NewsScraper::findElementByClassAndTag(lxb_dom_node_t* root, const string& className, const string& tagName) const {
+    if (!root) return nullptr;
+
+    // If this is an element node, check if it matches both class and tag
+    if (root->type == LXB_DOM_NODE_TYPE_ELEMENT) {
+        lxb_dom_element_t* element = lxb_dom_interface_element(root);
+        if (hasClass(element, className) && getTagName(element) == tagName) {
+            return element;
+        }
+    }
+
+    // Search children regardless of node type
+    lxb_dom_node_t* child = lxb_dom_node_first_child(root);
+    while (child) {
+        lxb_dom_element_t* found = findElementByClassAndTag(child, className, tagName);
+        if (found) return found;
+        child = lxb_dom_node_next(child);
+    }
+
+    return nullptr;
+}
+
+lxb_dom_element_t* NewsScraper::findElementByTag(lxb_dom_node_t* root, const string& tagName) const {
+    if (!root) return nullptr;
+
+    // If this is an element node, check if it has the tag
+    if (root->type == LXB_DOM_NODE_TYPE_ELEMENT) {
+        lxb_dom_element_t* element = lxb_dom_interface_element(root);
+        if (getTagName(element) == tagName) {
+            return element;
+        }
+    }
+
+    // Search children regardless of node type
+    lxb_dom_node_t* child = lxb_dom_node_first_child(root);
+    while (child) {
+        lxb_dom_element_t* found = findElementByTag(child, tagName);
+        if (found) return found;
+        child = lxb_dom_node_next(child);
+    }
+
+    return nullptr;
+}
+
+string NewsScraper::getElementTextContent(lxb_dom_element_t* element) const {
+    if (!element) return "";
+
+    lxb_dom_node_t* node = lxb_dom_interface_node(element);
+    size_t text_len;
+    const lxb_char_t* text = lxb_dom_node_text_content(node, &text_len);
+
+    if (!text) return "";
+    return string(reinterpret_cast<const char*>(text), text_len);
+}
