@@ -1,75 +1,67 @@
-
-#include "InformerScraper.h"
-#include "KurirScraper.h"
-#include "Scraper021.h"
-#include "N1Scraper.h"
+#include "NewsScraperFactory.h"
 #include <iostream>
+#include <vector>
+#include <string>
 
 using std::cout;
 using std::endl;
 using std::cerr;
+using std::vector;
+using std::string;
+
+/**
+ * Fetches and displays news links from a specific scraper
+ * @param scraperType The type of scraper to use
+ * @param siteName The display name of the news site
+ * @return True if links were found and displayed, false otherwise
+ */
+bool static fetchAndDisplayNews(ScraperType scraperType, const string& siteName) {
+    cout << "Fetching news from " << siteName << "..." << endl;
+
+    auto scraper = NewsScraperFactory::createScraper(scraperType);
+    if (!scraper) {
+        cerr << "Failed to create scraper for " << siteName << endl;
+        return false;
+    }
+
+    vector<string> links = scraper->fetchAndExtractNewsLinks();
+    if (links.empty()) {
+        cerr << "No news links found or failed to fetch content from " << siteName << endl;
+        return false;
+    }
+
+    cout << "Found " << links.size() << " news links:" << endl;
+    for (const auto& link : links) {
+        cout << link << endl;
+    }
+    cout << endl; // Add spacing between different sites
+
+    return true;
+}
 
 int main() {
-    cout << "Fetching news from Informer.rs..." << endl;
+    // Define the scrapers to use with their display names
+    vector<std::pair<ScraperType, string>> scrapers = {
+        {ScraperType::INFORMER, "Informer.rs"},
+        {ScraperType::KURIR, "Kurir.rs"},
+        {ScraperType::SCRAPER_021, "021.rs"},
+        {ScraperType::N1, "N1info.rs"}
+    };
 
-	InformerScraper* scraper = new InformerScraper();
-    // Fetch and extract news links directly from the website
-    vector<string> links = scraper->fetchAndExtractNewsLinks();
+    bool anySuccess = false;
 
-    if (links.empty()) {
-        cerr << "No news links found or failed to fetch content." << endl;
+    // Process each scraper
+    for (const auto& [scraperType, siteName] : scrapers) {
+        if (fetchAndDisplayNews(scraperType, siteName)) {
+            anySuccess = true;
+        }
+    }
+
+    if (!anySuccess) {
+        cerr << "Failed to fetch news from any source." << endl;
         return 1;
     }
 
-    cout << "Found " << links.size() << " news links:" << endl;
-    for (const auto& link : links) {
-        cout << link << endl;
-    }
-
-
-    cout << "Fetching news from Kurir.rs..." << endl;
-
-    KurirScraper* scraperK = new KurirScraper();
-    // Fetch and extract news links directly from the website
-    links = scraperK->fetchAndExtractNewsLinks();
-
-    if (links.empty()) {
-        cerr << "No news links found or failed to fetch content." << endl;
-        return 1;
-    }
-
-    cout << "Found " << links.size() << " news links:" << endl;
-    for (const auto& link : links) {
-        cout << link << endl;
-    }
-
-    Scraper021* scraper0 = new Scraper021();
-    // Fetch and extract news links directly from the website
-    links = scraper0->fetchAndExtractNewsLinks();
-
-    if (links.empty()) {
-        cerr << "No news links found or failed to fetch content." << endl;
-        return 1;
-    }
-
-    cout << "Found " << links.size() << " news links:" << endl;
-    for (const auto& link : links) {
-        cout << link << endl;
-    }
-
-    N1Scraper* scraperN = new N1Scraper();
-    // Fetch and extract news links directly from the website
-    links = scraperN->fetchAndExtractNewsLinks();
-
-    if (links.empty()) {
-        cerr << "No news links found or failed to fetch content." << endl;
-        return 1;
-    }
-
-    cout << "Found " << links.size() << " news links:" << endl;
-    for (const auto& link : links) {
-        cout << link << endl;
-    }
-
+    cout << "News fetching completed successfully!" << endl;
     return 0;
 }

@@ -143,6 +143,7 @@
     <ClCompile Include="KurirScraper.cpp" />
     <ClCompile Include="N1Scraper.cpp" />
     <ClCompile Include="NewsScraper.cpp" />
+    <ClCompile Include="NewsScraperFactory.cpp" />
     <ClCompile Include="Scraper021.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +151,7 @@
     <ClInclude Include="KurirScraper.h" />
     <ClInclude Include="N1Scraper.h" />
     <ClInclude Include="NewsScraper.h" />
+    <ClInclude Include="NewsScraperFactory.h" />
     <ClInclude Include="Scraper021.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
