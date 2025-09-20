@@ -22,6 +22,9 @@
     <ClCompile Include="2valves.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ParallelWorker.cpp">
+      <Filter>Parallel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InformerScraper.h">
@@ -41,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="NewsScraper.h">
       <Filter>Scraping</Filter>
+    </ClInclude>
+    <ClInclude Include="ParallelWorker.h">
+      <Filter>Parallel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +70,9 @@
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{68c9d53b-ae64-4a99-ac68-fd5f6517960d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parallel">
+      <UniqueIdentifier>{d308e6df-a9f9-4bce-941b-8b2e292b412d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
