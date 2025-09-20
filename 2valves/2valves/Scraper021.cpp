@@ -133,6 +133,12 @@ string Scraper021::fetchAndExtractArticleContent(const string& url) {
     string articleContent = "";
     lxb_dom_node_t* root = lxb_dom_interface_node(document);
 
+    // Add this after extracting the title:
+    string date = extractDate(root);
+    if (!date.empty()) {
+        articleContent += date + "\n\n";
+    }
+
     // Extract title
     string title = extractTitle(root);
     if (!title.empty()) {
@@ -332,4 +338,59 @@ void Scraper021::extractContentText(lxb_dom_node_t* node, string& content) {
             }
         }
     }
+}
+
+string Scraper021::extractDate(lxb_dom_node_t* root) {
+    if (!root) return "";
+
+    // Look for the info div that contains the date
+    lxb_dom_element_t* infoDiv = findElementByClass(root, "info");
+    if (infoDiv) {
+        lxb_dom_node_t* infoDivNode = lxb_dom_interface_node(infoDiv);
+
+        // Look for h6 elements within the info div
+        lxb_dom_node_t* child = lxb_dom_node_first_child(infoDivNode);
+        while (child) {
+            if (child->type == LXB_DOM_NODE_TYPE_ELEMENT) {
+                lxb_dom_element_t* childElement = lxb_dom_interface_element(child);
+                if (getTagName(childElement) == "div") {
+                    // Look for h6 elements in this div
+                    lxb_dom_node_t* grandchild = lxb_dom_node_first_child(child);
+                    while (grandchild) {
+                        if (grandchild->type == LXB_DOM_NODE_TYPE_ELEMENT) {
+                            lxb_dom_element_t* grandchildElement = lxb_dom_interface_element(grandchild);
+                            if (getTagName(grandchildElement) == "h6") {
+                                string dateText = getElementTextContent(grandchildElement);
+                                // Check if this looks like a date (contains dots and numbers)
+                                if (dateText.find('.') != string::npos &&
+                                    dateText.find_first_of("0123456789") != string::npos &&
+                                    dateText.find(':') == string::npos) { // Exclude time entries
+
+                                    // Parse dd.mm.yyyy. format
+                                    size_t firstDot = dateText.find('.');
+                                    size_t secondDot = dateText.find('.', firstDot + 1);
+                                    size_t thirdDot = dateText.find('.', secondDot + 1);
+
+                                    if (firstDot != string::npos && secondDot != string::npos && thirdDot != string::npos) {
+                                        string day = dateText.substr(0, firstDot);
+                                        string month = dateText.substr(firstDot + 1, secondDot - firstDot - 1);
+                                        string year = dateText.substr(secondDot + 1, thirdDot - secondDot - 1);
+
+                                        // Pad day and month with leading zeros if needed
+                                        if (day.length() == 1) day = "0" + day;
+                                        if (month.length() == 1) month = "0" + month;
+
+                                        return year + "-" + month + "-" + day;
+                                    }
+                                }
+                            }
+                        }
+                        grandchild = lxb_dom_node_next(grandchild);
+                    }
+                }
+            }
+            child = lxb_dom_node_next(child);
+        }
+    }
+    return "";
 }

@@ -76,4 +76,11 @@ private:
 	 * @return True if the text is unwanted, false otherwise
 	 */
     bool isUnwantedContent(const string& text);
+
+    /**
+     * Extracts the article published date from the parsed HTML
+     * @param root The root DOM node
+     * @return The article date in yyyy-mm-dd format
+     */
+    string extractDate(lxb_dom_node_t* root);
 };

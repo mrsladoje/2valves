@@ -126,6 +126,12 @@ string KurirScraper::fetchAndExtractArticleContent(const string& url) {
     string articleContent = "";
     lxb_dom_node_t* root = lxb_dom_interface_node(document);
 
+    // Extract date
+    string date = extractDate(root);
+    if (!date.empty()) {
+        articleContent += date + "\n\n";
+    }
+
     // Extract title
     string title = extractTitle(root);
     if (!title.empty()) {
@@ -297,4 +303,44 @@ bool KurirScraper::isUnwantedContent(const string& text) {
     }
 
     return false;
+}
+
+string KurirScraper::extractDate(lxb_dom_node_t* root) {
+    if (!root) return "";
+
+    lxb_dom_element_t* dateElement = findElementByClass(root, "article-header-date-published");
+    if (dateElement) {
+        string dateText = getElementTextContent(dateElement);
+        if (!dateText.empty()) {
+            // Find the date pattern: dd.mm.yyyy.
+            size_t start = dateText.find_first_of("0123456789");
+            if (start != string::npos) {
+                size_t end = dateText.find('.', dateText.find('.', dateText.find('.', start) + 1) + 1);
+                if (end != string::npos) {
+                    string dateOnly = dateText.substr(start, end - start + 1);
+                    // Remove the trailing dot if present
+                    if (dateOnly.back() == '.') {
+                        dateOnly.pop_back();
+                    }
+
+                    // Parse dd.mm.yyyy format
+                    size_t firstDot = dateOnly.find('.');
+                    size_t secondDot = dateOnly.find('.', firstDot + 1);
+
+                    if (firstDot != string::npos && secondDot != string::npos) {
+                        string day = dateOnly.substr(0, firstDot);
+                        string month = dateOnly.substr(firstDot + 1, secondDot - firstDot - 1);
+                        string year = dateOnly.substr(secondDot + 1);
+
+                        // Pad day and month with leading zeros if needed
+                        if (day.length() == 1) day = "0" + day;
+                        if (month.length() == 1) month = "0" + month;
+
+                        return year + "-" + month + "-" + day;
+                    }
+                }
+            }
+        }
+    }
+    return "";
 }

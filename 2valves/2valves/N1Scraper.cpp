@@ -138,6 +138,11 @@ string N1Scraper::fetchAndExtractArticleContent(const string& url) {
     string articleContent = "";
     lxb_dom_node_t* root = lxb_dom_interface_node(document);
 
+    string date = extractDate(root);
+    if (!date.empty()) {
+        articleContent += date + "\n\n";
+    }
+
     // Extract title
     string title = extractTitle(root);
     if (!title.empty()) {
@@ -294,4 +299,52 @@ lxb_dom_element_t* N1Scraper::findElementByAttribute(lxb_dom_node_t* root, const
     }
 
     return nullptr;
+}
+
+string N1Scraper::extractDate(lxb_dom_node_t* root) {
+    if (!root) return "";
+
+    lxb_dom_element_t* dateElement = findElementByAttribute(root, "data-testid", "article-published-time");
+    if (dateElement) {
+        string dateText = getElementTextContent(dateElement);
+        if (!dateText.empty()) {
+            // Parse Serbian date format: "20. sep. 2025. 08:47"
+            // Extract day, month, and year
+            size_t firstDot = dateText.find('.');
+            if (firstDot == string::npos) return "";
+
+            string day = dateText.substr(0, firstDot);
+
+            size_t secondDot = dateText.find('.', firstDot + 1);
+            if (secondDot == string::npos) return "";
+
+            string monthStr = dateText.substr(firstDot + 2, secondDot - firstDot - 2);
+
+            size_t thirdDot = dateText.find('.', secondDot + 1);
+            if (thirdDot == string::npos) return "";
+
+            string year = dateText.substr(secondDot + 2, thirdDot - secondDot - 2);
+
+            // Convert Serbian month abbreviation to number
+            string month = "01";
+            if (monthStr == "jan") month = "01";
+            else if (monthStr == "feb") month = "02";
+            else if (monthStr == "mar") month = "03";
+            else if (monthStr == "apr") month = "04";
+            else if (monthStr == "maj") month = "05";
+            else if (monthStr == "jun") month = "06";
+            else if (monthStr == "jul") month = "07";
+            else if (monthStr == "avg" || monthStr == "aug") month = "08";
+            else if (monthStr == "sep") month = "09";
+            else if (monthStr == "okt") month = "10";
+            else if (monthStr == "nov") month = "11";
+            else if (monthStr == "dec") month = "12";
+
+            // Pad day with leading zero if needed
+            if (day.length() == 1) day = "0" + day;
+
+            return year + "-" + month + "-" + day;
+        }
+    }
+    return "";
 }

@@ -85,4 +85,11 @@ private:
      * @return Pointer to the element, or nullptr if not found
      */
     lxb_dom_element_t* findElementByAttribute(lxb_dom_node_t* root, const string& attributeName, const string& attributeValue);
+
+    /**
+     * Extracts the article published date from the parsed HTML
+     * @param root The root DOM node
+     * @return The article date in yyyy-mm-dd format
+     */
+    string extractDate(lxb_dom_node_t* root);
 };

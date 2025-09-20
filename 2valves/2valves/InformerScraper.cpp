@@ -133,6 +133,11 @@ string InformerScraper::fetchAndExtractArticleContent(const string& url) {
     string articleContent = "";
     lxb_dom_node_t* root = lxb_dom_interface_node(document);
 
+    string date = extractDate(root);
+    if (!date.empty()) {
+        articleContent += date + "\n\n";
+    }
+
     // Extract title
     string title = extractTitle(root);
     if (!title.empty()) {
@@ -226,4 +231,51 @@ void InformerScraper::extractParagraphs(lxb_dom_node_t* node, string& content) {
         extractParagraphs(child, content);
         child = lxb_dom_node_next(child);
     }
+}
+
+string InformerScraper::extractDate(lxb_dom_node_t* root) {
+    if (!root) return "";
+
+    lxb_dom_element_t* authorTimeDiv = findElementByClass(root, "single-news-author-time");
+    if (authorTimeDiv) {
+        lxb_dom_node_t* authorTimeNode = lxb_dom_interface_node(authorTimeDiv);
+
+        // Look for p elements in this div
+        lxb_dom_node_t* child = lxb_dom_node_first_child(authorTimeNode);
+        while (child) {
+            if (child->type == LXB_DOM_NODE_TYPE_ELEMENT) {
+                lxb_dom_element_t* childElement = lxb_dom_interface_element(child);
+                if (getTagName(childElement) == "p") {
+                    string dateText = getElementTextContent(childElement);
+                    // Check if this looks like a date (dd.mm.yyyy format, no time)
+                    if (dateText.find('.') != string::npos &&
+                        dateText.find_first_of("0123456789") != string::npos &&
+                        dateText.find(':') == string::npos && // Exclude time entries
+                        dateText.find('>') == string::npos) { // Exclude time range entries
+
+                        // Parse dd.mm.yyyy format
+                        size_t firstDot = dateText.find('.');
+                        size_t secondDot = dateText.find('.', firstDot + 1);
+
+                        if (firstDot != string::npos && secondDot != string::npos) {
+                            string day = dateText.substr(0, firstDot);
+                            string month = dateText.substr(firstDot + 1, secondDot - firstDot - 1);
+                            string year = dateText.substr(secondDot + 1);
+
+                            // Remove any trailing whitespace from year
+                            year.erase(year.find_last_not_of(" \t\n\r") + 1);
+
+                            // Pad day and month with leading zeros if needed
+                            if (day.length() == 1) day = "0" + day;
+                            if (month.length() == 1) month = "0" + month;
+
+                            return year + "-" + month + "-" + day;
+                        }
+                    }
+                }
+            }
+            child = lxb_dom_node_next(child);
+        }
+    }
+    return "";
 }
