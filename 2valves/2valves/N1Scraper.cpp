@@ -1,6 +1,7 @@
 #include "N1Scraper.h"
 #include <iostream>
 #include <cpr/cpr.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -343,7 +344,14 @@ string N1Scraper::extractDate(lxb_dom_node_t* root) {
             // Pad day with leading zero if needed
             if (day.length() == 1) day = "0" + day;
 
-            return year + "-" + month + "-" + day;
+            string result = year + "-" + month + "-" + day;
+
+            // Remove all spaces and newlines from the final result
+            result.erase(remove_if(result.begin(), result.end(),
+                [](char c) { return c == ' ' || c == '\n' || c == '\r' || c == '\t'; }),
+                result.end());
+
+            return result;
         }
     }
     return "";

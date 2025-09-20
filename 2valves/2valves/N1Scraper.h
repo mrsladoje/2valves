@@ -25,6 +25,13 @@ public:
      */
     string fetchAndExtractArticleContent(const string& url) override;
 
+    /**
+     * Extracts the article published date from the parsed HTML
+     * @param root The root DOM node
+     * @return The article date in yyyy-mm-dd format
+     */
+    string extractDate(lxb_dom_node_t* root);
+
 private:
     const string BASE_URL = "https://n1info.rs";
 
@@ -85,11 +92,4 @@ private:
      * @return Pointer to the element, or nullptr if not found
      */
     lxb_dom_element_t* findElementByAttribute(lxb_dom_node_t* root, const string& attributeName, const string& attributeValue);
-
-    /**
-     * Extracts the article published date from the parsed HTML
-     * @param root The root DOM node
-     * @return The article date in yyyy-mm-dd format
-     */
-    string extractDate(lxb_dom_node_t* root);
 };

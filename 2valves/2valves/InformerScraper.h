@@ -25,6 +25,13 @@ public:
      */
     string fetchAndExtractArticleContent(const string& url) override;
 
+    /**
+     * Extracts the article published date from the parsed HTML
+     * @param root The root DOM node
+     * @return The article date in yyyy-mm-dd format
+     */
+    string extractDate(lxb_dom_node_t* root);
+
 private:
     const string DEFAULT_URL;
     const string BASE_URL = "https://informer.rs";
@@ -70,11 +77,4 @@ private:
      * @param content Reference to string where content is accumulated
      */
     void extractParagraphs(lxb_dom_node_t* node, string& content);
-    
-    /**
-     * Extracts the article published date from the parsed HTML
-     * @param root The root DOM node
-     * @return The article date in yyyy-mm-dd format
-     */
-    string extractDate(lxb_dom_node_t* root);
 };
