@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify
+from flask_cors import CORS
 
 api_bp = Blueprint('api', __name__)
+CORS(api_bp)
 
 def register_api_routes(app, processor):
     """Register API routes"""
@@ -96,4 +98,5 @@ def register_api_routes(app, processor):
         except Exception as e:
             return jsonify({"error": str(e)}), 500
     
-    app.register_blueprint(api_bp)
+    # This line has been updated to include the URL prefix
+    app.register_blueprint(api_bp, url_prefix='/api')
