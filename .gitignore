@@ -59,5 +59,31 @@ _CPack_Packages/
 *.stackdump
 
 # vcpkg
-
 vcpkg_installed/
+
+# Build directories
+build/
+cmake-build-*/
+
+# Executables
+*.exe
+*.out
+article_scraper
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
