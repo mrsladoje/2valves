@@ -22,7 +22,7 @@ protected:
         "ustas", "teroris", "idiot", "budal", "izdajn", "huligan",
         "ekstremis", "radikal", "fašis", "fasis", "ćac", "cac", "pionirsk",
         "izbor", "vanredn", "list", "saj", "rektor", "dekan", "fasizam",
-        "pritvor", "nasil", "plenum", "vjt"
+        "pritvor", "nasil", "plenum", "vjt", "antisrp"
     };
 
     /**

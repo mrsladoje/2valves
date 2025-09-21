@@ -43,6 +43,10 @@ class ArticleProcessor:
         """Get specific article by ID"""
         return self.database.get_article_by_id(article_id)
     
+    def get_articles_by_date(self, date_str):
+        """Get articles for a specific date"""
+        return self.database.get_articles_by_date(date_str)
+    
     def get_stats(self):
         """Get database statistics"""
         return self.database.get_stats()

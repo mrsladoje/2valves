@@ -29,6 +29,22 @@ def register_api_routes(app, processor):
         except Exception as e:
             return jsonify({"error": str(e)}), 500
 
+    @api_bp.route('/articles/date/<date>')
+    def get_articles_by_date(date):
+        """Get all articles for a specific date (YYYY-MM-DD format)"""
+        try:
+            articles = processor.get_articles_by_date(date)
+            if articles is None:
+                return jsonify({"error": "Invalid date format. Use YYYY-MM-DD"}), 400
+            
+            return jsonify({
+                "date": date,
+                "count": len(articles),
+                "articles": articles
+            })
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+
     @api_bp.route('/build')
     def build_cpp():
         """Manually trigger C++ project build"""

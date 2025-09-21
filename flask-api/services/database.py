@@ -93,6 +93,42 @@ class DatabaseService:
             logger.error(f"Error retrieving article {article_id}: {str(e)}")
             return None
     
+    def get_articles_by_date(self, date_str):
+        """Get all articles for a specific date (YYYY-MM-DD format)"""
+        try:
+            from datetime import datetime
+            
+            # Parse the date string
+            try:
+                target_date = datetime.strptime(date_str, "%Y-%m-%d")
+            except ValueError:
+                logger.error(f"Invalid date format: {date_str}. Expected YYYY-MM-DD")
+                return None
+            
+            # Create date range for the entire day
+            start_date = target_date.replace(hour=0, minute=0, second=0, microsecond=0)
+            end_date = target_date.replace(hour=23, minute=59, second=59, microsecond=999999)
+            
+            # Query articles saved on that date
+            articles = list(
+                self.collection.find({
+                    "saved_at": {
+                        "$gte": start_date,
+                        "$lte": end_date
+                    }
+                }).sort("saved_at", -1)  # Most recent first
+            )
+            
+            logger.info(f"Found {len(articles)} articles for date {date_str}")
+            return articles
+            
+        except PyMongoError as e:
+            logger.error(f"Error retrieving articles for date {date_str}: {str(e)}")
+            return None
+        except Exception as e:
+            logger.error(f"Unexpected error retrieving articles for date {date_str}: {str(e)}")
+            return None
+    
     def get_stats(self):
         """Get database statistics"""
         try:
