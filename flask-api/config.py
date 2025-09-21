@@ -38,6 +38,14 @@ class Config:
     
     # Logging
     LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
+    
+    # Gemini API configuration
+    GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
+    GEMINI_MODEL = 'gemini-2.5-flash-lite'
+    
+    # News source classification
+    REGIME_SOURCES = ['kurir', 'informer', 'pink', 'happy', 'prva']
+    INDEPENDENT_SOURCES = ['021', 'n1', 'nova', 'beta', 'danas']
 
 class DevelopmentConfig(Config):
     """Development configuration"""

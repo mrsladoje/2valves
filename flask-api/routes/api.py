@@ -45,6 +45,24 @@ def register_api_routes(app, processor):
         except Exception as e:
             return jsonify({"error": str(e)}), 500
 
+    @api_bp.route('/analyze/<date>')
+    def analyze_news_coverage(date):
+        """Analyze news coverage for a specific date using Gemini AI"""
+        try:
+            analysis = processor.analyze_news_coverage(date)
+            
+            # Check if there was an error
+            if "error" in analysis:
+                if "Invalid date format" in analysis["error"]:
+                    return jsonify(analysis), 400
+                else:
+                    return jsonify(analysis), 500
+            
+            return jsonify(analysis)
+            
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+
     @api_bp.route('/build')
     def build_cpp():
         """Manually trigger C++ project build"""
