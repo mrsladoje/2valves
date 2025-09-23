@@ -1,39 +1,42 @@
 <script>
-  import { onMount } from 'svelte';
-  
-  let selectedDate = '';
+  import { onMount } from "svelte";
+  import SvelteMarkdown from "svelte-markdown";
+
+  let selectedDate = "";
   let loading = false;
   let error = null;
   let analysis = null;
-  
+
   // Set default date to today
   onMount(() => {
     const today = new Date();
-    selectedDate = today.toISOString().split('T')[0];
+    selectedDate = today.toISOString().split("T")[0];
   });
-  
+
   async function analyzeDate() {
     if (!selectedDate) {
-      error = 'Please select a date';
+      error = "Please select a date";
       return;
     }
-    
+
     loading = true;
     error = null;
     analysis = null;
-    
+
     try {
-      const response = await fetch(`http://localhost:5000/api/analyze/${selectedDate}`);
+      const response = await fetch(
+        `http://localhost:5000/api/analyze/${selectedDate}`
+      );
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
-      
+
       if (data.error) {
         throw new Error(data.error);
       }
-      
+
       analysis = data;
     } catch (err) {
       error = err.message;
@@ -41,9 +44,9 @@
       loading = false;
     }
   }
-  
+
   function handleKeyPress(event) {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       analyzeDate();
     }
   }
@@ -56,39 +59,40 @@
       Exposing the parallel realities of regime vs. independent media coverage
     </p>
   </header>
-  
+
   <section class="date-section">
     <div class="date-input-group">
-      <input 
-        type="date" 
+      <input
+        type="date"
         bind:value={selectedDate}
         on:keypress={handleKeyPress}
         class="date-input"
-        max={new Date().toISOString().split('T')[0]}
+        max={new Date().toISOString().split("T")[0]}
       />
-      <button 
-        on:click={analyzeDate} 
+      <button
+        on:click={analyzeDate}
         disabled={loading || !selectedDate}
         class="analyze-btn"
       >
-        {loading ? 'Analyzing...' : 'Analyze Coverage'}
+        {loading ? "Analyzing..." : "Analyze Coverage"}
       </button>
     </div>
   </section>
-  
+
   {#if loading}
     <div class="loading">
       <div class="spinner"></div>
       <span>Analyzing media coverage with AI...</span>
     </div>
   {/if}
-  
+
   {#if error}
     <div class="error">
-      <strong>Error:</strong> {error}
+      <strong>Error:</strong>
+      {error}
     </div>
   {/if}
-  
+
   {#if analysis}
     <div class="analysis-result">
       <div class="analysis-header">
@@ -107,9 +111,9 @@
           </div>
         </div>
       </div>
-      
+
       <div class="analysis-content">
-        {analysis.analysis}
+        <SvelteMarkdown source={analysis.analysis} />
       </div>
     </div>
   {/if}
