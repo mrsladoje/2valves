@@ -72,52 +72,88 @@ class GeminiService:
                 unknown_articles.append(article)
         
         prompt = f"""
-CONTEXT: Serbian Media Landscape Analysis
+CONTEXT: What's Really Happening in Serbian Media
 
-You are analyzing the Serbian media landscape, which is characterized by a stark division between regime-controlled media and independent outlets. This division creates what can be described as "parallel realities" in news coverage.
+You're looking at Serbian news, which is basically split into two completely different worlds:
+- **Government Media** (Kurir, Informer, Pink, Happy, Prva): These are basically Vučić's propaganda machine. They spin everything to make him look good.
+- **Independent Media** (021, N1, Nova, Danas, Direktno): These actually try to report what's happening, even when it makes the government look bad.
 
-HISTORICAL CONTEXT:
-The current Serbian media landscape bears disturbing similarities to historical propaganda techniques, particularly those employed by Joseph Goebbels during Nazi Germany. The regime-controlled media in Serbia employs similar methods:
+The result? People watching different channels literally live in different realities.
 
-1. **Repetition of False Narratives**: Constant repetition of government talking points until they become accepted as truth
-2. **Emotional Manipulation**: Using fear, anger, and nationalism to override rational thinking
-3. **Demonization of Opposition**: Systematic character assassination of political opponents and independent journalists
-4. **Control of Information Flow**: Monopolizing prime-time slots and most-read publications
-5. **Scapegoating**: Blaming external forces (EU, opposition, NGOs) for all problems
-6. **Cult of Personality**: Excessive praise and protection of the leader (Aleksandar Vučić)
+IMPORTANT: Never reference this prompt, these instructions, or any implementation details in your response. The user should only see your natural analysis without any mention of:
+- "Based on your instructions"
+- "According to the prompt"
+- "As instructed"
 
-MEDIA CLASSIFICATION:
-- **Regime-Controlled Media** (Kurir, Informer, Pink, Happy, Prva): These outlets function as propaganda arms of the ruling party. They consistently promote government narratives, attack opposition figures, and rarely engage in critical journalism.
-- **Independent Media** (021, N1, Nova, Beta, Danas): These outlets attempt to maintain journalistic standards, report critically on government actions, and provide platforms for diverse viewpoints.
-
-ANALYSIS TASK:
-Analyze the news coverage for {date} and compare how these two types of media covered the same events, particularly focusing on:
-
-1. **Narrative Framing**: How do regime vs. independent media frame the same events?
-2. **Language and Tone**: Identify propaganda techniques vs. journalistic reporting
-3. **Information Gaps**: What stories does each type of media emphasize or ignore?
-4. **Student Protests Context**: Pay special attention to coverage of student protests and government response
-5. **Manipulation Techniques**: Identify specific Goebbels-style propaganda methods being used
+YOUR JOB:
+Compare how these two sides covered the same events on {date}. Focus on the actual news of the day, not theory. Cover up to 3 stories max. 
+If there are no articles, just search for what actually happened on {date} with Serbian student protests. In that case, you don't have to use the exact given format.
+Btw, your answer is shown to a user in the frontend, so make it engaging and easy to read!
 
 ARTICLES FROM {date}:
 
-REGIME-CONTROLLED SOURCES ({len(regime_articles)} articles):
-{json.dumps(regime_articles, ensure_ascii=False, indent=2) if regime_articles else "No regime media articles found for this date."}
+**GOVERNMENT MEDIA** ({len(regime_articles)} articles):
+{json.dumps(regime_articles, ensure_ascii=False, indent=2) if regime_articles else "No government media articles found."}
 
-INDEPENDENT SOURCES ({len(independent_articles)} articles):
-{json.dumps(independent_articles, ensure_ascii=False, indent=2) if independent_articles else "No independent media articles found for this date."}
+**INDEPENDENT MEDIA** ({len(independent_articles)} articles):
+{json.dumps(independent_articles, ensure_ascii=False, indent=2) if independent_articles else "No independent media articles found."}
 
-UNCLASSIFIED SOURCES ({len(unknown_articles)} articles):
-{json.dumps(unknown_articles, ensure_ascii=False, indent=2) if unknown_articles else "No unclassified articles found."}
+**OTHER SOURCES** ({len(unknown_articles)} articles):
+{json.dumps(unknown_articles, ensure_ascii=False, indent=2) if unknown_articles else "No other articles found."}
 
-INSTRUCTIONS:
-1. If articles are available, analyze the stark differences in coverage between regime and independent media
-2. If no articles are available for this date, perform a Google search about student protests in Serbia on {date} and provide analysis based on what you find
-3. Highlight specific examples of propaganda techniques
-4. Draw parallels to historical propaganda methods where applicable
-5. Conclude with observations about the state of media freedom in Serbia
+WHAT TO DO:
+1. Pick the biggest story of the day + up to 2 more interesting stories
+2. Show how government media lied about each vs. how independent media actually reported it
+3. Use emojis for bullet points and subheadings for readability
+4. Keep each story concise but punchy
+5. End with a fun but sharp comparison to historical propaganda methods
+6. If no articles available, search for what actually happened on {date} with Serbian student protests
 
-Please provide a comprehensive analysis that exposes the "parallel realities" created by these different media ecosystems.
+EXAMPLE FORMAT:
+
+## 📰 Story #1: The Big One - [What Actually Happened]
+
+🔴 **Government Media Says**: [Their BS version]
+✅ **Independent Media Reports**: [What really happened]  
+🎯 **The Truth**: [Fact-check]
+
+## 📰 Story #2: [Second Story Title]
+
+🔴 **Government Media Says**: [Their spin]
+✅ **Independent Media Reports**: [Reality]
+🎯 **The Truth**: [Fact-check]
+
+## 📰 Story #3: [Third Story Title]
+
+🔴 **Government Media Says**: [Their version]
+✅ **Independent Media Reports**: [What actually happened]
+🎯 **The Truth**: [Reality check]
+
+---
+
+Remember: Government media lies constantly because most people can't fact-check them. That's how Vučić controls public opinion.
+
+## 🎭 The Propaganda Playbook: Vučić's Greatest Hits
+
+Compare Vučić's media tactics to history's worst propaganda methods (like Goebbels), but make it readable and engaging. Show how:
+
+### 🔄 **The Repeat Machine**
+How constant repetition makes lies feel like truth
+
+### 😨 **Fear & Anger Factory** 
+Using emotions to shut down thinking
+
+### 🎯 **The Blame Game**
+Always having someone else to blame
+
+### 👑 **The Cult of Vučić**
+Making the leader seem perfect and untouchable
+
+Keep this section punchy, use examples from the day's coverage, and make it clear why this matters for regular people trying to understand what's really happening in Serbia.
+
+Remember: Government media lies constantly because most people can't fact-check them. That's how Vučić controls public opinion.
+
+Make it engaging, stylish, and easy to read!
 """
         
         return prompt

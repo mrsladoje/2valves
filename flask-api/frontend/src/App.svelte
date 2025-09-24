@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import SvelteMarkdown from "svelte-markdown";
+  import Pump from "../pics/pump_transparent.png";
 
   let selectedDate = "";
   let loading = false;
@@ -52,6 +53,11 @@
   }
 </script>
 
+<div class="background-pumps">
+    {#each Array(10) as _, i}
+      <img src={Pump} alt="" class="pump-bg" />
+    {/each}
+  </div>
 <div class="container">
   <header class="header">
     <h1 class="title">Serbian Media Analysis</h1>
