@@ -1,0 +1,25 @@
+{
+  "name": "serbian-media-analysis",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite dev",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^6.1.0",
+    "@sveltejs/kit": "^2.42.2",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "svelte": "^4.0.0",
+    "svelte-check": "^3.4.3",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "svelte-markdown": "^0.4.1"
+  }
+}

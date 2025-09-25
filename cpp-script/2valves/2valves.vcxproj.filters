@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="InformerScraper.cpp">
+      <Filter>Scraping\Informer</Filter>
+    </ClCompile>
+    <ClCompile Include="KurirScraper.cpp">
+      <Filter>Scraping\Kurir</Filter>
+    </ClCompile>
+    <ClCompile Include="N1Scraper.cpp">
+      <Filter>Scraping\N1</Filter>
+    </ClCompile>
+    <ClCompile Include="Scraper021.cpp">
+      <Filter>Scraping\021</Filter>
+    </ClCompile>
+    <ClCompile Include="NewsScraperFactory.cpp">
+      <Filter>Scraping\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="NewsScraper.cpp">
+      <Filter>Scraping</Filter>
+    </ClCompile>
+    <ClCompile Include="2valves.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParallelWorker.cpp">
+      <Filter>Parallel</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="InformerScraper.h">
+      <Filter>Scraping\Informer</Filter>
+    </ClInclude>
+    <ClInclude Include="KurirScraper.h">
+      <Filter>Scraping\Kurir</Filter>
+    </ClInclude>
+    <ClInclude Include="N1Scraper.h">
+      <Filter>Scraping\N1</Filter>
+    </ClInclude>
+    <ClInclude Include="Scraper021.h">
+      <Filter>Scraping\021</Filter>
+    </ClInclude>
+    <ClInclude Include="NewsScraperFactory.h">
+      <Filter>Scraping\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="NewsScraper.h">
+      <Filter>Scraping</Filter>
+    </ClInclude>
+    <ClInclude Include="ParallelWorker.h">
+      <Filter>Parallel</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Scraping">
+      <UniqueIdentifier>{2dcab79b-e90a-4eb9-80b5-10345e10bc13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scraping\Informer">
+      <UniqueIdentifier>{29d4212c-2f9e-42b9-806d-0fb7b6cfe849}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scraping\021">
+      <UniqueIdentifier>{7075a54c-c154-4017-9d63-571ae78037ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scraping\Kurir">
+      <UniqueIdentifier>{3d223907-aa8e-4e8c-acea-64ec1bd20b5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scraping\N1">
+      <UniqueIdentifier>{1e1a4915-b796-448c-a5ba-d7eed2a9e997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scraping\Factory">
+      <UniqueIdentifier>{ae7c482a-cfda-40c6-a1ff-001ca081aae4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{68c9d53b-ae64-4a99-ac68-fd5f6517960d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parallel">
+      <UniqueIdentifier>{d308e6df-a9f9-4bce-941b-8b2e292b412d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
