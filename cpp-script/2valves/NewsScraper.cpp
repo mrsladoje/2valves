@@ -1,6 +1,10 @@
 #include "NewsScraper.h"
+#include <iostream>
+#include <chrono>
+#include <thread>
 #include <algorithm>
 #include <cctype>
+#include <cpr/cpr.h>
 
 using namespace std;
 
@@ -194,4 +198,43 @@ bool NewsScraper::hasId(lxb_dom_element_t* element, const string& id) const {
         return elementId == id;
     }
     return false;
+}
+
+string NewsScraper::fetchHtmlContent(const string& url) {
+    try {
+        cpr::Response response = cpr::Get(
+            cpr::Url{ url },
+            cpr::Header{ {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"} },
+            cpr::Timeout{ REQUEST_TIMEOUT * 1000 }, // Convert to milliseconds
+            cpr::ConnectTimeout{ 10000 } // 10 second connect timeout
+        );
+
+        if (response.status_code == 200) {
+            return response.text;
+        }
+        else {
+            cerr << "HTTP request failed with status: " << response.status_code << endl;
+            return "";
+        }
+    }
+    catch (const exception& e) {
+        cerr << "Error fetching URL: " << e.what() << endl;
+        return "";
+    }
+}
+
+string NewsScraper::fetchHtmlContentWithRetry(const string& url) {
+    for (int attempt = 1; attempt <= MAX_RETRIES; ++attempt) {
+        string content = fetchHtmlContent(url);
+        if (!content.empty()) {
+            return content;
+        }
+
+        if (attempt < MAX_RETRIES) {
+            this_thread::sleep_for(chrono::seconds(RETRY_DELAY));
+        }
+    }
+
+    cerr << "Failed to fetch content after " << MAX_RETRIES << " attempts: " << url << endl;
+    return "";
 }

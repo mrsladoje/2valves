@@ -1,39 +1,17 @@
 ﻿#include "Scraper021.h"
 #include <iostream>
-#include <cpr/cpr.h>
 
 using namespace std;
 
 vector<string> Scraper021::fetchAndExtractNewsLinks() {
     string url = BASE_URL + "/Najnovije/3";
-    string htmlContent = fetchHtmlContent(url);
+    string htmlContent = fetchHtmlContentWithRetry(url);
     if (htmlContent.empty()) {
         cerr << "Failed to fetch HTML content from: " << url << endl;
         return vector<string>();
     }
 
     return extractNewsLinks(htmlContent);
-}
-
-string Scraper021::fetchHtmlContent(const string& url) {
-    try {
-        cpr::Response response = cpr::Get(
-            cpr::Url{ url },
-            cpr::Header{ {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"} }
-        );
-
-        if (response.status_code == 200) {
-            return response.text;
-        }
-        else {
-            cerr << "HTTP request failed with status: " << response.status_code << endl;
-            return "";
-        }
-    }
-    catch (const exception& e) {
-        cerr << "Error fetching URL: " << e.what() << endl;
-        return "";
-    }
 }
 
 vector<string> Scraper021::extractNewsLinks(const string& htmlContent) {
@@ -106,7 +84,7 @@ void Scraper021::findNewsLinks(lxb_dom_node_t* node, vector<string>& links) {
 }
 
 string Scraper021::fetchAndExtractArticleContent(const string& url) {
-    string htmlContent = fetchHtmlContent(url);
+    string htmlContent = fetchHtmlContentWithRetry(url);
     if (htmlContent.empty()) {
         cerr << "Failed to fetch HTML content from: " << url << endl;
         return "";

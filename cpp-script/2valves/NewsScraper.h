@@ -25,6 +25,10 @@ protected:
         "pritvor", "nasil", "plenum", "vjt", "antisrp"
     };
 
+    static const int MAX_RETRIES = 3;
+    static const int REQUEST_TIMEOUT = 30; // seconds
+    static const int RETRY_DELAY = 2; // seconds between retries
+
     /**
      * Checks if a URL is relevant for protest-related news
      * @param url The URL to check
@@ -109,6 +113,20 @@ protected:
      * @return The text content as string
      */
     string getElementTextContent(lxb_dom_element_t* element) const;
+
+    /**
+     * Fetches HTML content from a URL, with a timeout
+     * @param url The URL to fetch
+     * @return HTML content as string, or empty string on error
+     */
+    string fetchHtmlContent(const string& url);
+
+    /**
+     * Fetches HTML content from a URL, with retries
+     * @param url The URL to fetch
+     * @return HTML content as string, or empty string on error
+     */
+    string fetchHtmlContentWithRetry(const string& url);
 
 public:
     virtual ~NewsScraper() = default;
